@@ -34,7 +34,23 @@ execSync(`git remote add origin https://github.com/ClinicalToolkits/${projectNam
 // Update package.json with the new project name
 const packageJsonPath = path.join(fullPath, 'package.json');
 const packageJson = require(packageJsonPath);
+
+// Update the name field
 packageJson.name = projectName;
+
+// Update the repository field
+packageJson.repository = {
+  type: "git",
+  url: `git+https://github.com/your-org/${projectName}.git`
+};
+
+// Optionally, update other fields like "bugs" or "homepage"
+packageJson.bugs = {
+  url: `https://github.com/your-org/${projectName}/issues`
+};
+packageJson.homepage = `https://github.com/your-org/${projectName}#readme`;
+
+// Write the updated package.json back to the file system
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
 
 // Copy .env.example to .env
